@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaditya Enterprises | Home Page |</title>
+    <style>
+        body{
+            height: 200vh;
+        }
+        .product-slider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            margin-top: 15rem;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            left: 20px;
+            /* Adjust the position as needed */
+            top: 20px;
+            /* Adjust the position as needed */
+        }
+
+        .product-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .product-item:hover {
+            background-color: #f0f0f0;
+            /* Change the background color on hover */
+        }
+
+        /* Styles for the navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            transition: transform 0.3s;
+            transform: translateY(0);
+            z-index: 1000;
+        }
+
+        /* Hide the navbar when scrolled down */
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="navbar" id="navbar">
+                <ul>
+                    <li>Home</li>
+                    <li>absolute</li>
+                    <li>contact</li>
+                    <li>nothin</li>
+                </ul>
+            </div>
+            <div class="product-slider">
+                <div class="slider">
+                    <img src="https://images.unsplash.com/photo-1682685796186-1bb4a5655653?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Product 1">
+                    <img src="https://images.unsplash.com/photo-1692698921100-e31dc7453d4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Product 2">
+                    <img src="https://plus.unsplash.com/premium_photo-1688822012426-b005858cba03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Product 3">
+                    <!-- Add more product images here -->
+                </div>
+                <div class="product-list">
+                    <div class="product-item" data-index="0">Product 1</div>
+                    <div class="product-item" data-index="1">Product 2</div>
+                    <div class="product-item" data-index="2">Product 3</div>
+                    <!-- Add more product items here -->
+                </div>
+            </div>
+
+        </nav>
+    </header>
+    <script>
+        const slider = document.querySelector('.slider');
+        const productItems = document.querySelectorAll('.product-item');
+
+        let currentIndex = 0;
+        const interval = 3000; // Change image every 3 seconds
+
+        function changeProduct(index) {
+            // Change the active image
+            slider.style.transform = `translateX(-${index * 100}%)`;
+
+            // Change the active product item background
+            productItems.forEach((item, i) => {
+                if (i === index) {
+                    item.style.backgroundColor = '#f0f0f0'; // Change to the desired background color
+                } else {
+                    item.style.backgroundColor = 'transparent';
+                }
+            });
+        }
+
+        function nextProduct() {
+            currentIndex = (currentIndex + 1) % productItems.length;
+            changeProduct(currentIndex);
+        }
+
+        // Automatically change the product image
+        setInterval(nextProduct, interval);
+
+        // Handle click events on product items to change the image
+        productItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                changeProduct(currentIndex);
+            });
+        });
+
+        // Initial setup
+        changeProduct(currentIndex);
+
+        // Get the navbar element
+        const navbar = document.getElementById('navbar');
+
+        let prevScrollPos = window.pageYOffset;
+        
+        // Function to check the scroll direction and show/hide the navbar
+        function handleScroll() {
+            const currentScrollPos = window.pageYOffset;
+            console.log("prev",prevScrollPos);
+            console.log("current",currentScrollPos);
+            console.log("====")
+
+            if (prevScrollPos > currentScrollPos) {
+                // Scrolling up
+                navbar.classList.remove('hidden');
+            } else {
+                // Scrolling down
+                navbar.classList.add('hidden');
+            }
+
+            prevScrollPos = currentScrollPos;
+        }
+
+        // Listen for the scroll event and call the handleScroll function
+        window.addEventListener('scroll', handleScroll);
+
+    </script>
+</body>
+
+</html>
